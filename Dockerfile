@@ -6,33 +6,33 @@
 
 # Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
 
-ARG NODE_VERSION=22.19.0
+ARG BUN_VERSION=canary
 
-FROM node:${NODE_VERSION}-alpine
+FROM oven/bun:${BUN_VERSION}-alpine
 
-# Use production node environment by default.
-ENV NODE_ENV production
+# Use development node environment by default.
+ENV NODE_ENV development
 
 
 WORKDIR /usr/src/app
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.npm to speed up subsequent builds.
-# Leverage a bind mounts to package.json and package-lock.json to avoid having to copy them into
+# Leverage a bind mounts to package.json and bun.lock to avoid having to copy them into
 # into this layer.
 RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=package-lock.json,target=package-lock.json \
-    --mount=type=cache,target=/root/.npm \
-    npm ci --omit=dev
+    --mount=type=bind,source=bun.lock,target=bun.lock \
+    --mount=type=cache,target=/root/.bun \
+    bun ci --omit=dev
 
 # Run the application as a non-root user.
-USER node
+USER bun
 
 # Copy the rest of the source files into the image.
 COPY . .
 
 # Expose the port that the application listens on.
-EXPOSE 3000
+EXPOSE 8000
 
 # Run the application.
-CMD bun dev
+CMD bun run dev
