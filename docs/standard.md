@@ -1,23 +1,37 @@
 ### API STANDARD
 
-- Response Body Success (200)
+- Response Body Success
 
 ```json
 {
-  "code": ""
-  "status": ""
-  "message": ""
-  "data": []
+  "code": 200,
+  "status": "SUCCESS",
+  "message": "Data retrieved successfully",
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "limit": 10,
+      "total_pages": 2,
+      "total_results": 20
+    }
+  },
+  "data": [{ "...": "..." }]
 }
 ```
 
-- Response Body Error (500)
+- Response Body Error
 
 ```json
 {
-  "code": ""
-  "status": ""
-  "message": ""
+  "code": 422,
+  "status": "VALIDATION_ERROR",
+  "message": "Validation failed",
+  "errors": [
+    {
+      "field": "email",
+      "message": "Invalid email format"
+    }
+  ]
 }
 ```
 
@@ -27,8 +41,14 @@
 {
   "Access-Control-Allow-Credentials": "true",
   "Access-Control-Allow-Origin": "http://localhost:3000",
-  "Acces-Control-Allow-Method": "GET,POST,PATCH,DELETE,OPTIONS",
-  "Access-Access-Control-Max-Age": "600"
+  "Access-Control-Allow-Methods": "GET,POST,PATCH,DELETE,OPTIONS",
+  "Access-Control-Max-Age": "600",
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "DENY",
+  "X-XSS-Protection": "1; mode=block",
+  "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+  "Content-Security-Policy": "default-src 'self'",
+  "Referrer-Policy": "strict-origin-when-cross-origin"
 }
 ```
 
@@ -38,7 +58,7 @@
 {
   "Domain": "...domain",
   "Path": "/",
-  "HttpOnlyCookie": true,
+  "httpOnly": true,
   "Secure": true,
   "SameSite": "Lax",
   "Expires": "..."
