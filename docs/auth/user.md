@@ -323,51 +323,6 @@ PATCH /api/v1/auth/me
 
 ---
 
-## Change Password
-
-POST /api/v1/auth/me/password
-
-**Request Body:**
-
-```json
-{
-  "current_password": "OldPassword123!",
-  "password": "NewPassword456!",
-  "password_confirmation": "NewPassword456!"
-}
-```
-
-**Response Success (200):**
-
-```json
-{
-  "code": 200,
-  "status": "SUCCESS",
-  "message": "Password changed successfully",
-  "data": {
-    "updated_at": "2024-01-21T10:00:00Z"
-  }
-}
-```
-
-**Response Error (422):**
-
-```json
-{
-  "code": 422,
-  "status": "VALIDATION_ERROR",
-  "message": "Validation failed",
-  "errors": [
-    {
-      "field": "current_password",
-      "message": "Current password is incorrect"
-    }
-  ]
-}
-```
-
----
-
 ## Implementation Notes
 
 ### JWT Token Payload
