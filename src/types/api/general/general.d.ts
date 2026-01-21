@@ -3,16 +3,44 @@
  *
  * Semua response API menggunakan format yang sama:
  * - Selalu ada field `code`, `status`, `message`, `data`
- * - `status` bisa 'success' atau 'error'
+ * - `status` menggunakan specific status codes (lihat StatusCode type)
  * - `meta` bersifat opsional, ada jika perlu (pagination, dsb)
  */
+
+/**
+ * HTTP Status Codes
+ */
+export type StatusCode =
+  | 200 // success
+  | 201 // created
+  | 400 // bad_request
+  | 401 // unauthorized
+  | 403 // forbidden
+  | 404 // not_found
+  | 422 // validation_error
+  | 429 // rate_limit_exceeded
+  | 500 // internal_error
+
+/**
+ * API Status Types
+ */
+export type ApiStatus =
+  | 'success'
+  | 'created'
+  | 'bad_request'
+  | 'unauthorized'
+  | 'forbidden'
+  | 'not_found'
+  | 'validation_error'
+  | 'rate_limit_exceeded'
+  | 'internal_error'
 
 /**
  * Success Response Structure
  */
 export type SuccessApiResponse<T = unknown> = {
-  code: number
-  status: 'success'
+  code: StatusCode
+  status: ApiStatus
   message: string
   meta?: {
     page?: number
@@ -27,8 +55,8 @@ export type SuccessApiResponse<T = unknown> = {
  * Error Response Structure
  */
 export type ErrorApiResponse = {
-  code: number
-  status: 'error'
+  code: StatusCode
+  status: ApiStatus
   message: string
   errors?: Array<{
     field: string

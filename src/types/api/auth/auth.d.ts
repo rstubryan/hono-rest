@@ -1,4 +1,4 @@
-import type { BaseApiResponse, SuccessApiResponse } from '../general/general'
+import type { BaseApiResponse } from '../general/general'
 
 /**
  * ========================================
@@ -7,7 +7,7 @@ import type { BaseApiResponse, SuccessApiResponse } from '../general/general'
  */
 
 /**
- * Base User - dari database
+ * Base User - atomic fields dari database
  */
 export type BaseUser = {
   id: string
@@ -18,28 +18,25 @@ export type BaseUser = {
   email_verified: boolean
   created_at: string
   updated_at: string
+  permissions: string[]
 }
 
 /**
- * Public User Profile (user yang tampil ke public)
+ * User - full data dengan permissions
  */
-export type PublicUser = {
-  id: string
-  name: string | null
-  avatar: string | null
-  bio: string | null
-}
+export type User = BaseUser
 
 /**
- * User dengan update profile fields
+ * Public User - user data yang tampil ke public (tanpa sensitive info)
+ * Menggunakan Pick dari BaseUser
  */
-export type UserProfile = {
-  id: string
-  name: string | null
-  email: string
-  bio: string | null
-  updated_at: string
-}
+export type PublicUser = Pick<BaseUser, 'id' | 'name' | 'avatar' | 'bio'>
+
+/**
+ * User Profile - partial data untuk update profile response
+ * Menggunakan Pick dari BaseUser
+ */
+export type UserProfile = Pick<BaseUser, 'id' | 'name' | 'email' | 'bio' | 'updated_at'>
 
 /**
  * ========================================
@@ -71,28 +68,28 @@ export type AuthUpdateProfileRequest = {
  */
 
 /**
- * Register/Login Response - user di-wrap dalam object
+ * Register/Login Response
  */
 export type AuthResponse = BaseApiResponse<{
   user: BaseUser
 }>
 
 /**
- * Get Current User Response - langsung BaseUser
+ * GetMe - Get current user dengan permissions
  */
-export type GetMeResponse = BaseApiResponse<BaseUser>
+export type GetMe = BaseApiResponse<User>
 
 /**
- * Update Profile Response
+ * UpdateProfileResponse - Update profile result
  */
 export type UpdateProfileResponse = BaseApiResponse<UserProfile>
 
 /**
- * Logout Response
+ * LogoutResponse - Logout result
  */
 export type LogoutResponse = BaseApiResponse<null>
 
 /**
- * Refresh Token Response
+ * RefreshTokenResponse - Refresh token result
  */
 export type RefreshTokenResponse = BaseApiResponse<null>
