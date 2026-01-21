@@ -1,29 +1,9 @@
-/**
- * API Response Standard
- *
- * Semua response API menggunakan format yang sama:
- * - Selalu ada field `code`, `status`, `message`, `data`
- * - `status` menggunakan specific status codes (lihat StatusCode type)
- * - `meta` bersifat opsional, ada jika perlu (pagination, dsb)
- */
+// ================================
+// STATUS CODES
+// ================================
 
-/**
- * HTTP Status Codes
- */
-export type StatusCode =
-  | 200 // success
-  | 201 // created
-  | 400 // bad_request
-  | 401 // unauthorized
-  | 403 // forbidden
-  | 404 // not_found
-  | 422 // validation_error
-  | 429 // rate_limit_exceeded
-  | 500 // internal_error
+export type StatusCode = 200 | 201 | 400 | 401 | 403 | 404 | 422 | 429 | 500
 
-/**
- * API Status Types
- */
 export type ApiStatus =
   | 'success'
   | 'created'
@@ -35,9 +15,10 @@ export type ApiStatus =
   | 'rate_limit_exceeded'
   | 'internal_error'
 
-/**
- * Success Response Structure
- */
+// ================================
+// API RESPONSE
+// ================================
+
 export type SuccessApiResponse<T = unknown> = {
   code: StatusCode
   status: ApiStatus
@@ -51,9 +32,6 @@ export type SuccessApiResponse<T = unknown> = {
   data: T
 }
 
-/**
- * Error Response Structure
- */
 export type ErrorApiResponse = {
   code: StatusCode
   status: ApiStatus
@@ -64,27 +42,31 @@ export type ErrorApiResponse = {
   }>
 }
 
-/**
- * Base API Response (Success or Error)
- */
 export type BaseApiResponse<T = unknown> = ErrorApiResponse | SuccessApiResponse<T>
 
-/**
- * Pagination Meta (untuk response)
- */
-export type PaginationMeta = {
-  pagination: {
-    page: number
-    limit: number
-    total_pages: number
-    total_results: number
-  }
-}
+// ================================
+// REQUEST
+// ================================
 
-/**
- * Pagination Request Query
- */
 export type PaginationQuery = {
   page?: number
   limit?: number
 }
+
+// ================================
+// COMMON FIELDS
+// ================================
+
+export type Timestamps = {
+  created_at: string
+  updated_at: string
+}
+
+export type Metadata = {
+  created_by: string
+  updated_by: string
+}
+
+export type WithTimestamps<T> = T & Timestamps
+
+export type WithMetadata<T> = T & Metadata

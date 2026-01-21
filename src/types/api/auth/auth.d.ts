@@ -1,14 +1,9 @@
-import type { BaseApiResponse } from '../general/general'
+import type { BaseApiResponse, Timestamps } from '../general/general'
 
-/**
- * ========================================
- * DATA TYPES (Raw dari Database)
- * ========================================
- */
+// ================================
+// DATA TYPES
+// ================================
 
-/**
- * Base User - atomic fields dari database
- */
 export type BaseUser = {
   id: string
   name: string | null
@@ -16,33 +11,18 @@ export type BaseUser = {
   avatar: string | null
   bio: string | null
   email_verified: boolean
-  created_at: string
-  updated_at: string
   permissions: string[]
-}
+} & Timestamps
 
-/**
- * User - full data dengan permissions
- */
-export type User = BaseUser
-
-/**
- * Public User - user data yang tampil ke public (tanpa sensitive info)
- * Menggunakan Pick dari BaseUser
- */
 export type PublicUser = Pick<BaseUser, 'id' | 'name' | 'avatar' | 'bio'>
 
-/**
- * User Profile - partial data untuk update profile response
- * Menggunakan Pick dari BaseUser
- */
 export type UserProfile = Pick<BaseUser, 'id' | 'name' | 'email' | 'bio' | 'updated_at'>
 
-/**
- * ========================================
- * REQUEST TYPES
- * ========================================
- */
+export type User = BaseApiResponse<BaseUser>
+
+// ================================
+// REQUEST
+// ================================
 
 export type AuthRegisterRequest = {
   name: string
@@ -61,35 +41,16 @@ export type AuthUpdateProfileRequest = {
   bio?: string
 }
 
-/**
- * ========================================
- * RESPONSE TYPES
- * ========================================
- */
+// ================================
+// RESPONSE
+// ================================
 
-/**
- * Register/Login Response
- */
 export type AuthResponse = BaseApiResponse<{
   user: BaseUser
 }>
 
-/**
- * GetMe - Get current user dengan permissions
- */
-export type GetMe = BaseApiResponse<User>
-
-/**
- * UpdateProfileResponse - Update profile result
- */
 export type UpdateProfileResponse = BaseApiResponse<UserProfile>
 
-/**
- * LogoutResponse - Logout result
- */
 export type LogoutResponse = BaseApiResponse<null>
 
-/**
- * RefreshTokenResponse - Refresh token result
- */
 export type RefreshTokenResponse = BaseApiResponse<null>
