@@ -5,7 +5,7 @@
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Data retrieved successfully",
   "meta": {
     "pagination": {
@@ -24,7 +24,7 @@
 ```json
 {
   "code": 422,
-  "status": "VALIDATION_ERROR",
+  "status": "validation_error",
   "message": "Validation failed",
   "errors": [
     {

@@ -15,7 +15,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 201,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Article liked successfully",
   "data": {
     "article_id": "uuid-article-id",
@@ -31,7 +31,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 404,
-  "status": "NOT_FOUND",
+  "status": "not_found",
   "message": "Article not found",
   "errors": []
 }
@@ -42,7 +42,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 400,
-  "status": "BAD_REQUEST",
+  "status": "bad_request",
   "message": "You already liked this article",
   "errors": []
 }
@@ -65,7 +65,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Article unliked successfully",
   "data": {
     "article_id": "uuid-article-id",
@@ -92,7 +92,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 201,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Article bookmarked successfully",
   "data": {
     "article_id": "uuid-article-id",
@@ -107,7 +107,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 400,
-  "status": "BAD_REQUEST",
+  "status": "bad_request",
   "message": "You already bookmarked this article",
   "errors": []
 }
@@ -130,7 +130,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Bookmark removed successfully",
   "data": {
     "article_id": "uuid-article-id",
@@ -160,7 +160,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Bookmarks retrieved successfully",
   "meta": {
     "pagination": {
@@ -220,7 +220,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Liked articles retrieved successfully",
   "meta": {
     "pagination": {
@@ -280,7 +280,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Reading history retrieved successfully",
   "meta": {
     "pagination": {
@@ -334,7 +334,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Reading progress updated",
   "data": {
     "article_id": "uuid-article-id",
@@ -358,7 +358,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Article marked as read",
   "data": {
     "article_id": "uuid-article-id",
@@ -387,7 +387,7 @@ POST /api/v1/articles/:articleId/share
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Share link generated",
   "data": {
     "platform": "twitter",
@@ -408,7 +408,7 @@ GET /api/v1/articles/:articleId/share-stats
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Share statistics retrieved",
   "data": {
     "article_id": "uuid-article-id",

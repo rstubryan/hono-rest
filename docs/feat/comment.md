@@ -24,7 +24,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 201,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Comment created successfully",
   "data": {
     "id": "uuid-comment-id",
@@ -51,7 +51,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 422,
-  "status": "VALIDATION_ERROR",
+  "status": "validation_error",
   "message": "Validation failed",
   "errors": [
     {
@@ -91,7 +91,7 @@ GET /api/v1/articles/:articleId/comments?page=1&limit=10&sort=latest
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Comments retrieved successfully",
   "meta": {
     "pagination": {
@@ -151,7 +151,7 @@ GET /api/v1/comments/:id
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Comment retrieved successfully",
   "data": {
     "id": "uuid-comment-id",
@@ -212,7 +212,7 @@ Authorization: Bearer ${token} (Comment owner or Admin)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Comment updated successfully",
   "data": {
     "id": "uuid-comment-id",
@@ -227,7 +227,7 @@ Authorization: Bearer ${token} (Comment owner or Admin)
 ```json
 {
   "code": 403,
-  "status": "FORBIDDEN",
+  "status": "forbidden",
   "message": "You don't have permission to update this comment",
   "errors": []
 }
@@ -246,7 +246,7 @@ Authorization: Bearer ${token} (Comment owner or Admin)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Comment deleted successfully",
   "data": {
     "id": "uuid-comment-id",
@@ -268,7 +268,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 201,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Comment liked successfully",
   "data": {
     "comment_id": "uuid-comment-id",
@@ -291,7 +291,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Comment unliked successfully",
   "data": {
     "comment_id": "uuid-comment-id",
@@ -323,7 +323,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 201,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Comment reported successfully",
   "data": {
     "comment_id": "uuid-comment-id",
@@ -355,7 +355,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Moderation queue retrieved successfully",
   "meta": {
     "pagination": {
@@ -408,7 +408,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Comment moderated successfully",
   "data": {
     "id": "uuid-comment-id",

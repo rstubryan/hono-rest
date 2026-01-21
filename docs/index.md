@@ -68,7 +68,7 @@ All responses follow the standard format defined in [standard.md](./standard.md)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Data retrieved successfully",
   "meta": {
     "pagination": {
@@ -87,7 +87,7 @@ All responses follow the standard format defined in [standard.md](./standard.md)
 ```json
 {
   "code": 422,
-  "status": "VALIDATION_ERROR",
+  "status": "validation_error",
   "message": "Validation failed",
   "errors": [
     {
@@ -281,15 +281,15 @@ Common filter parameters:
 
 | Code | Status              | Description                   |
 | ---- | ------------------- | ----------------------------- |
-| 200  | SUCCESS             | Request successful            |
-| 201  | CREATED             | Resource created successfully |
-| 400  | BAD_REQUEST         | Invalid request               |
-| 401  | UNAUTHORIZED        | Authentication required       |
-| 403  | FORBIDDEN           | Permission denied             |
-| 404  | NOT_FOUND           | Resource not found            |
-| 422  | VALIDATION_ERROR    | Validation failed             |
-| 429  | RATE_LIMIT_EXCEEDED | Too many requests             |
-| 500  | INTERNAL_ERROR      | Server error                  |
+| 200  | success             | Request successful            |
+| 201  | created             | Resource created successfully |
+| 400  | bad_request         | Invalid request               |
+| 401  | unauthorized        | Authentication required       |
+| 403  | forbidden           | Permission denied             |
+| 404  | not_found           | Resource not found            |
+| 422  | validation_error    | Validation failed             |
+| 429  | rate_limit_exceeded | Too many requests             |
+| 500  | internal_error      | Server error                  |
 
 ## Support
 

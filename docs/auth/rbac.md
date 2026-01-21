@@ -130,7 +130,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Roles retrieved successfully",
   "data": [
     {
@@ -205,7 +205,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Role retrieved successfully",
   "data": {
     "id": "uuid-role-id",
@@ -259,7 +259,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Role assigned successfully",
   "data": {
     "user_id": "uuid-user-id",
@@ -286,7 +286,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 403,
-  "status": "FORBIDDEN",
+  "status": "forbidden",
   "message": "Cannot assign role higher than your own",
   "errors": []
 }
@@ -305,7 +305,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Role removed successfully",
   "data": {
     "user_id": "uuid-user-id",
@@ -341,7 +341,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Permissions retrieved successfully",
   "data": {
     "user_id": "uuid-user-id",
@@ -395,7 +395,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Permission checked successfully",
   "data": {
     "permission": "articles.create",
@@ -410,7 +410,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Permission checked successfully",
   "data": {
     "permission": "articles.delete_any",

@@ -24,7 +24,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 201,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Tag created successfully",
   "data": {
     "id": "uuid-tag-id",
@@ -46,7 +46,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 422,
-  "status": "VALIDATION_ERROR",
+  "status": "validation_error",
   "message": "Validation failed",
   "errors": [
     {
@@ -81,7 +81,7 @@ GET /api/v1/tags?page=1&limit=20&sort=popular
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Tags retrieved successfully",
   "meta": {
     "pagination": {
@@ -129,7 +129,7 @@ GET /api/v1/tags/:idOrSlug
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Tag retrieved successfully",
   "data": {
     "id": "uuid-tag-id",
@@ -169,7 +169,7 @@ GET /api/v1/tags/:idOrSlug
 ```json
 {
   "code": 404,
-  "status": "NOT_FOUND",
+  "status": "not_found",
   "message": "Tag not found",
   "errors": []
 }
@@ -200,7 +200,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Tag updated successfully",
   "data": {
     "id": "uuid-tag-id",
@@ -228,7 +228,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Tag deleted successfully",
   "data": {
     "id": "uuid-tag-id",
@@ -242,7 +242,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 400,
-  "status": "BAD_REQUEST",
+  "status": "bad_request",
   "message": "Cannot delete tag with existing articles",
   "errors": [
     {
@@ -271,7 +271,7 @@ GET /api/v1/tags/popular?limit=20
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Popular tags retrieved successfully",
   "meta": {
     "period": "all"
@@ -317,7 +317,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Tags merged successfully",
   "data": {
     "source_tag": {

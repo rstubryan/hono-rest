@@ -182,7 +182,7 @@ When creating/updating articles, API returns:
 ```json
 {
   "code": 422,
-  "status": "VALIDATION_ERROR",
+  "status": "validation_error",
   "message": "Invalid Quill Delta format",
   "errors": [
     {
@@ -198,7 +198,7 @@ When creating/updating articles, API returns:
 ```json
 {
   "code": 422,
-  "status": "VALIDATION_ERROR",
+  "status": "validation_error",
   "message": "Content type not supported",
   "errors": [
     {

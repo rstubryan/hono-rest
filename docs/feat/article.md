@@ -77,7 +77,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 201,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Article created successfully",
   "data": {
     "id": "uuid-article-id",
@@ -128,7 +128,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 422,
-  "status": "VALIDATION_ERROR",
+  "status": "validation_error",
   "message": "Validation failed",
   "errors": [
     {
@@ -172,7 +172,7 @@ GET /api/v1/articles?page=1&limit=10&status=published&category=programming&tag=t
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Articles retrieved successfully",
   "meta": {
     "pagination": {
@@ -240,7 +240,7 @@ GET /api/v1/articles/:idOrSlug
 ````json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Article retrieved successfully",
   "data": {
     "id": "uuid-article-id",
@@ -310,7 +310,7 @@ GET /api/v1/articles/:idOrSlug
 ```json
 {
   "code": 404,
-  "status": "NOT_FOUND",
+  "status": "not_found",
   "message": "Article not found",
   "errors": []
 }
@@ -355,7 +355,7 @@ When updating, `tag_ids` will **replace** all existing tags (not merged):
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Article updated successfully",
   "data": {
     "id": "uuid-article-id",
@@ -398,7 +398,7 @@ When updating, `tag_ids` will **replace** all existing tags (not merged):
 ```json
 {
   "code": 403,
-  "status": "FORBIDDEN",
+  "status": "forbidden",
   "message": "You don't have permission to update this article",
   "errors": []
 }
@@ -409,7 +409,7 @@ When updating, `tag_ids` will **replace** all existing tags (not merged):
 ```json
 {
   "code": 404,
-  "status": "NOT_FOUND",
+  "status": "not_found",
   "message": "Article not found",
   "errors": []
 }
@@ -428,7 +428,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Article deleted successfully",
   "data": {
     "id": "uuid-article-id",
@@ -442,7 +442,7 @@ Authorization: Bearer ${token}
 ```json
 {
   "code": 403,
-  "status": "FORBIDDEN",
+  "status": "forbidden",
   "message": "You don't have permission to delete this article",
   "errors": []
 }
@@ -470,7 +470,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Article status updated successfully",
   "data": {
     "id": "uuid-article-id",
@@ -501,7 +501,7 @@ GET /api/v1/articles/search?q=hono framework&page=1&limit=10
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Search results retrieved successfully",
   "meta": {
     "pagination": {
@@ -558,7 +558,7 @@ GET /api/v1/articles/trending?period=7d&limit=10
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Trending articles retrieved successfully",
   "meta": {
     "period": "7d",
@@ -602,7 +602,7 @@ GET /api/v1/articles/popular?period=30d&limit=10
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Popular articles retrieved successfully",
   "meta": {
     "period": "30d"

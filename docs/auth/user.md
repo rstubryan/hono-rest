@@ -60,7 +60,7 @@ POST /api/v1/auth/register
 ```json
 {
   "code": 201,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Registration successful",
   "data": {
     "user": {
@@ -87,7 +87,8 @@ Set-Cookie: refresh_token=<jwt_refresh_token>; HttpOnly; Secure; SameSite=Lax; P
 ```json
 {
   "code": 422,
-  "status": "VALIDATION_ERROR",
+  "status": "validation_error"
+  "status": "validation_error",
   "message": "Validation failed",
   "errors": [
     {
@@ -118,7 +119,7 @@ POST /api/v1/auth/login
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Login successful",
   "data": {
     "user": {
@@ -145,7 +146,8 @@ Set-Cookie: refresh_token=<jwt_refresh_token>; HttpOnly; Secure; SameSite=Lax; P
 ```json
 {
   "code": 401,
-  "status": "UNAUTHORIZED",
+  "status": "unauthorized"
+  "status": "unauthorized",
   "message": "Invalid credentials",
   "errors": []
 }
@@ -170,7 +172,7 @@ Tidak perlu request body. Refresh token diambil otomatis dari cookie.
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Token refreshed successfully",
   "data": null
 }
@@ -188,7 +190,7 @@ Set-Cookie: refresh_token=<new_jwt_refresh_token>; HttpOnly; Secure; SameSite=La
 ```json
 {
   "code": 401,
-  "status": "UNAUTHORIZED",
+  "status": "unauthorized",
   "message": "Invalid or expired refresh token",
   "errors": []
 }
@@ -214,7 +216,7 @@ Revoke refresh token dan clear cookies.
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Logout successful",
   "data": null
 }
@@ -247,7 +249,7 @@ Get current user profile. Access token otomatis dikirim via cookie.
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "User profile retrieved successfully",
   "data": {
     "id": "uuid-user-id",
@@ -256,6 +258,15 @@ Get current user profile. Access token otomatis dikirim via cookie.
     "avatar": null,
     "bio": null,
     "email_verified": false,
+    "permissions": [
+      "articles.view",
+      "articles.like",
+      "articles.bookmark",
+      "comments.create",
+      "comments.edit_own",
+      "comments.delete_own",
+      "profile.update"
+    ],
     "created_at": "2024-01-20T10:00:00Z",
     "updated_at": "2024-01-21T10:00:00Z"
   }
@@ -267,7 +278,7 @@ Get current user profile. Access token otomatis dikirim via cookie.
 ```json
 {
   "code": 401,
-  "status": "UNAUTHORIZED",
+  "status": "unauthorized",
   "message": "Unauthorized",
   "errors": []
 }
@@ -293,7 +304,7 @@ PATCH /api/v1/auth/me
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Profile updated successfully",
   "data": {
     "id": "uuid-user-id",
@@ -310,7 +321,7 @@ PATCH /api/v1/auth/me
 ```json
 {
   "code": 422,
-  "status": "VALIDATION_ERROR",
+  "status": "validation_error",
   "message": "Validation failed",
   "errors": [
     {

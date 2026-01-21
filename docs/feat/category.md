@@ -24,7 +24,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 201,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Category created successfully",
   "data": {
     "id": "uuid-category-id",
@@ -46,7 +46,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 422,
-  "status": "VALIDATION_ERROR",
+  "status": "validation_error",
   "message": "Validation failed",
   "errors": [
     {
@@ -82,7 +82,7 @@ GET /api/v1/categories?page=1&limit=10&parent=null
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Categories retrieved successfully",
   "meta": {
     "pagination": {
@@ -135,7 +135,7 @@ GET /api/v1/categories/:idOrSlug
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Category retrieved successfully",
   "data": {
     "id": "uuid-category-id",
@@ -177,7 +177,7 @@ GET /api/v1/categories/:idOrSlug
 ```json
 {
   "code": 404,
-  "status": "NOT_FOUND",
+  "status": "not_found",
   "message": "Category not found",
   "errors": []
 }
@@ -209,7 +209,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Category updated successfully",
   "data": {
     "id": "uuid-category-id",
@@ -243,7 +243,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Category deleted successfully",
   "data": {
     "id": "uuid-category-id",
@@ -258,7 +258,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 400,
-  "status": "BAD_REQUEST",
+  "status": "bad_request",
   "message": "Cannot delete category with existing articles",
   "errors": [
     {
@@ -287,7 +287,7 @@ GET /api/v1/categories/tree
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Category tree retrieved successfully",
   "data": [
     {

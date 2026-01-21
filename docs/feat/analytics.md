@@ -21,7 +21,7 @@ Authorization: Bearer ${token} (Author/Admin only)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Article analytics retrieved successfully",
   "data": {
     "article": {
@@ -97,7 +97,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Dashboard analytics retrieved successfully",
   "data": {
     "period": "7d",
@@ -203,7 +203,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Real-time stats retrieved successfully",
   "data": {
     "timestamp": "2024-01-21T10:00:00Z",
@@ -278,7 +278,7 @@ Authorization: Bearer ${token} (Admin only)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Search analytics retrieved successfully",
   "meta": {
     "pagination": {
@@ -333,7 +333,7 @@ Authorization: Bearer ${token} (Author only)
 ```json
 {
   "code": 200,
-  "status": "SUCCESS",
+  "status": "success",
   "message": "Author stats retrieved successfully",
   "data": {
     "author": {
