@@ -23,13 +23,16 @@ WORKDIR /usr/src/app
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=bun.lock,target=bun.lock \
     --mount=type=cache,target=/root/.bun \
-    bun ci --omit=dev
+    bun ci
 
 # Run the application as a non-root user.
-USER bun
+# USER bun
 
 # Copy the rest of the source files into the image.
 COPY . .
+
+# Generate Prisma Client
+RUN bunx prisma generate
 
 # Expose the port that the application listens on.
 EXPOSE 8000

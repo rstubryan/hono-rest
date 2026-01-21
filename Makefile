@@ -27,6 +27,11 @@ docker-down: ## Stop Docker containers
 docker-build: ## Build Docker containers
 	docker compose build
 
+docker-fresh:  ## Build fresh Docker containers
+	docker compose down
+	docker compose build --no-cache
+	docker compose up -d
+
 docker-logs: ## Show Docker container logs
 	docker compose logs -f server
 
