@@ -1,7 +1,10 @@
 {
   "name": "hono-rest",
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/index.ts",
+    "format": "prettier --write .",
+    "type": "bunx tsc --noEmit",
+    "prepare": "husky"
   },
   "dependencies": {
     "@prisma/client": "^7.2.0",
@@ -10,6 +13,7 @@
   },
   "devDependencies": {
     "@types/bun": "latest",
+    "husky": "^9.1.7",
     "prettier": "3.8.0",
     "prisma": "^7.2.0"
   }
