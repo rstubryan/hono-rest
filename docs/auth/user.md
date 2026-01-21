@@ -1,4 +1,44 @@
-# AUTH API
+# AUTH API - MVP
+
+Minimal authentication API untuk MVP menggunakan JWT dengan httpOnly cookies.
+
+## Security Overview
+
+**Tokens Storage:**
+
+- ✅ **Access Token & Refresh Token** disimpan di httpOnly, Secure, SameSite cookies
+- ✅ **Tidak di-expose** di response body
+- ✅ **Tidak accessible** via JavaScript (httpOnly)
+- ✅ **Dikirim otomatis** dengan setiap request ke API
+
+**Cookie Configuration:**
+
+```json
+{
+  "access_token": {
+    "name": "access_token",
+    "options": {
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax",
+      "path": "/",
+      "maxAge": 900 // 15 minutes
+    }
+  },
+  "refresh_token": {
+    "name": "refresh_token",
+    "options": {
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax",
+      "path": "/",
+      "maxAge": 604800 // 7 days
+    }
+  }
+}
+```
+
+---
 
 ## Register
 
@@ -27,19 +67,19 @@ POST /api/v1/auth/register
       "id": "uuid-user-id",
       "name": "John Doe",
       "email": "john@example.com",
-      "role": "reader",
-      "avatar": "https://example.com/avatars/default.jpg",
+      "avatar": null,
       "email_verified": false,
       "created_at": "2024-01-20T10:00:00Z"
-    },
-    "tokens": {
-      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-      "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-      "token_type": "Bearer",
-      "expires_in": 900
     }
   }
 }
+```
+
+**Response Headers:**
+
+```http
+Set-Cookie: access_token=<jwt_access_token>; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=900
+Set-Cookie: refresh_token=<jwt_refresh_token>; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=604800
 ```
 
 **Response Error (422):**
@@ -53,10 +93,6 @@ POST /api/v1/auth/register
     {
       "field": "email",
       "message": "Email already exists"
-    },
-    {
-      "field": "password",
-      "message": "Password must be at least 8 characters with uppercase, lowercase, and number"
     }
   ]
 }
@@ -73,8 +109,7 @@ POST /api/v1/auth/login
 ```json
 {
   "email": "john@example.com",
-  "password": "SecurePassword123!",
-  "remember_me": true
+  "password": "SecurePassword123!"
 }
 ```
 
@@ -90,20 +125,19 @@ POST /api/v1/auth/login
       "id": "uuid-user-id",
       "name": "John Doe",
       "email": "john@example.com",
-      "role": "reader",
-      "avatar": "https://example.com/avatars/john.jpg",
-      "email_verified": true,
-      "created_at": "2024-01-20T10:00:00Z",
-      "last_login": "2024-01-21T10:00:00Z"
-    },
-    "tokens": {
-      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-      "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-      "token_type": "Bearer",
-      "expires_in": 900
+      "avatar": null,
+      "email_verified": false,
+      "created_at": "2024-01-20T10:00:00Z"
     }
   }
 }
+```
+
+**Response Headers:**
+
+```http
+Set-Cookie: access_token=<jwt_access_token>; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=900
+Set-Cookie: refresh_token=<jwt_refresh_token>; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=604800
 ```
 
 **Response Error (401):**
@@ -113,12 +147,7 @@ POST /api/v1/auth/login
   "code": 401,
   "status": "UNAUTHORIZED",
   "message": "Invalid credentials",
-  "errors": [
-    {
-      "field": "credentials",
-      "message": "Email or password is incorrect"
-    }
-  ]
+  "errors": []
 }
 ```
 
@@ -128,13 +157,13 @@ POST /api/v1/auth/login
 
 POST /api/v1/auth/refresh
 
-**Request Body:**
+**Description:**
 
-```json
-{
-  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-}
-```
+Refresh access token menggunakan refresh token dari cookie. Endpoint ini otomatis membaca refresh token dari httpOnly cookie dan mengeluarkan cookies baru.
+
+**Request:**
+
+Tidak perlu request body. Refresh token diambil otomatis dari cookie.
 
 **Response Success (200):**
 
@@ -143,13 +172,15 @@ POST /api/v1/auth/refresh
   "code": 200,
   "status": "SUCCESS",
   "message": "Token refreshed successfully",
-  "data": {
-    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "token_type": "Bearer",
-    "expires_in": 900
-  }
+  "data": null
 }
+```
+
+**Response Headers:**
+
+```http
+Set-Cookie: access_token=<new_jwt_access_token>; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=900
+Set-Cookie: refresh_token=<new_jwt_refresh_token>; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=604800
 ```
 
 **Response Error (401):**
@@ -163,13 +194,20 @@ POST /api/v1/auth/refresh
 }
 ```
 
+**Note:**
+
+- Old refresh token di-revoke (dicantumkan di database)
+- New refresh token di-generate (token rotation)
+
 ---
 
 ## Logout
 
 POST /api/v1/auth/logout
 
-Authorization: Bearer ${token}
+**Description:**
+
+Revoke refresh token dan clear cookies.
 
 **Response Success (200):**
 
@@ -178,11 +216,21 @@ Authorization: Bearer ${token}
   "code": 200,
   "status": "SUCCESS",
   "message": "Logout successful",
-  "data": {
-    "logged_out_at": "2024-01-21T10:00:00Z"
-  }
+  "data": null
 }
 ```
+
+**Response Headers:**
+
+```http
+Set-Cookie: access_token=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0
+Set-Cookie: refresh_token=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0
+```
+
+**Backend Actions:**
+
+- Mark refresh token sebagai revoked di database
+- Clear cookies dengan Max-Age=0
 
 ---
 
@@ -190,7 +238,9 @@ Authorization: Bearer ${token}
 
 GET /api/v1/auth/me
 
-Authorization: Bearer ${token}
+**Description:**
+
+Get current user profile. Access token otomatis dikirim via cookie.
 
 **Response Success (200):**
 
@@ -203,19 +253,9 @@ Authorization: Bearer ${token}
     "id": "uuid-user-id",
     "name": "John Doe",
     "email": "john@example.com",
-    "role": "reader",
-    "avatar": "https://example.com/avatars/john.jpg",
-    "bio": "Full-stack developer passionate about TypeScript",
-    "website": "https://johndoe.com",
-    "twitter": "johndoe",
-    "github": "johndoe",
-    "email_verified": true,
-    "stats": {
-      "articles_count": 12,
-      "comments_count": 45,
-      "likes_given": 89,
-      "bookmarks_count": 23
-    },
+    "avatar": null,
+    "bio": null,
+    "email_verified": false,
     "created_at": "2024-01-20T10:00:00Z",
     "updated_at": "2024-01-21T10:00:00Z"
   }
@@ -239,17 +279,12 @@ Authorization: Bearer ${token}
 
 PATCH /api/v1/auth/me
 
-Authorization: Bearer ${token}
-
 **Request Body:**
 
 ```json
 {
   "name": "John Doe Updated",
-  "bio": "Updated bio",
-  "website": "https://johndoe-updated.com",
-  "twitter": "johndoe_updated",
-  "github": "johndoe_updated"
+  "bio": "Updated bio"
 }
 ```
 
@@ -265,11 +300,24 @@ Authorization: Bearer ${token}
     "name": "John Doe Updated",
     "email": "john@example.com",
     "bio": "Updated bio",
-    "website": "https://johndoe-updated.com",
-    "twitter": "johndoe_updated",
-    "github": "johndoe_updated",
     "updated_at": "2024-01-21T10:00:00Z"
   }
+}
+```
+
+**Response Error (422):**
+
+```json
+{
+  "code": 422,
+  "status": "VALIDATION_ERROR",
+  "message": "Validation failed",
+  "errors": [
+    {
+      "field": "name",
+      "message": "Name must be at least 2 characters"
+    }
+  ]
 }
 ```
 
@@ -278,8 +326,6 @@ Authorization: Bearer ${token}
 ## Change Password
 
 POST /api/v1/auth/me/password
-
-Authorization: Bearer ${token}
 
 **Request Body:**
 
@@ -322,154 +368,95 @@ Authorization: Bearer ${token}
 
 ---
 
-## Upload Avatar
+## Implementation Notes
 
-POST /api/v1/auth/me/avatar
+### JWT Token Payload
 
-Authorization: Bearer ${token}
-
-**Request Body:**
-
-Content-Type: multipart/form-data
-
-```
-avatar: [file]
-```
-
-**Response Success (200):**
+**Access Token (15 minutes):**
 
 ```json
 {
-  "code": 200,
-  "status": "SUCCESS",
-  "message": "Avatar uploaded successfully",
+  "sub": "user-uuid",
+  "email": "john@example.com",
+  "type": "access",
+  "iat": 1234567890,
+  "exp": 1234568790
+}
+```
+
+**Refresh Token (7 days):**
+
+```json
+{
+  "sub": "user-uuid",
+  "type": "refresh",
+  "tokenId": "refresh-token-uuid",
+  "iat": 1234567890,
+  "exp": 1234567890
+}
+```
+
+### Cookie Management (Frontend)
+
+**Automatic:**
+
+- Browser otomatis mengirim cookies dengan setiap request
+- Tidak perlu manual header `Authorization: Bearer ${token}`
+- Tidak perlu manage token storage di frontend
+
+**Manual Token Handling (Optional):**
+Jika butuh akses token manual (misal untuk WebSocket):
+
+```typescript
+// Server endpoint untuk get access token
+GET /api/v1/auth/token
+
+// Response
+{
   "data": {
-    "avatar_url": "https://example.com/avatars/johndoe-updated.jpg",
-    "size": 256732,
-    "updated_at": "2024-01-21T10:00:00Z"
+    "access_token": "eyJhbGci..."
   }
 }
 ```
 
-**Response Error (422):**
+### Security Best Practices
 
-```json
-{
-  "code": 422,
-  "status": "VALIDATION_ERROR",
-  "message": "Validation failed",
-  "errors": [
-    {
-      "field": "avatar",
-      "message": "Avatar must be a valid image (jpg, png, webp) and max 2MB"
-    }
-  ]
-}
+1. **httpOnly Cookies** - Mencegah XSS attacks
+2. **Secure Flag** - Hanya kirim via HTTPS
+3. **SameSite=Lax** - Mencegah CSRF attacks
+4. **Token Rotation** - Refresh token di-rotate setelah digunakan
+5. **Short-lived Access Token** - 15 minutes expiration
+6. **Long-lived Refresh Token** - 7 days expiration, bisa di-revoke
+7. **Revocation Tracking** - Refresh token yang di-revoke disimpan di database
+
+### CORS Configuration
+
+Frontend harus mengizinkan credentials:
+
+```typescript
+// Frontend fetch example
+fetch('http://localhost:3000/api/v1/auth/login', {
+  method: 'POST',
+  credentials: 'include', // Penting untuk cookies
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email: 'john@example.com',
+    password: 'SecurePassword123!',
+  }),
+})
 ```
 
----
+Backend CORS configuration:
 
-## Forgot Password
-
-POST /api/v1/auth/forgot-password
-
-**Request Body:**
-
-```json
-{
-  "email": "john@example.com"
-}
-```
-
-**Response Success (200):**
-
-```json
-{
-  "code": 200,
-  "status": "SUCCESS",
-  "message": "Password reset email sent",
-  "data": {
-    "email": "john@example.com",
-    "expires_in": 3600
-  }
-}
-```
-
----
-
-## Reset Password
-
-POST /api/v1/auth/reset-password
-
-**Request Body:**
-
-```json
-{
-  "token": "reset-token-from-email",
-  "password": "NewPassword456!",
-  "password_confirmation": "NewPassword456!"
-}
-```
-
-**Response Success (200):**
-
-```json
-{
-  "code": 200,
-  "status": "SUCCESS",
-  "message": "Password reset successful",
-  "data": {
-    "reset_at": "2024-01-21T10:00:00Z"
-  }
-}
-```
-
----
-
-## Verify Email
-
-POST /api/v1/auth/verify-email
-
-**Request Body:**
-
-```json
-{
-  "token": "verification-token-from-email"
-}
-```
-
-**Response Success (200):**
-
-```json
-{
-  "code": 200,
-  "status": "SUCCESS",
-  "message": "Email verified successfully",
-  "data": {
-    "email": "john@example.com",
-    "verified_at": "2024-01-21T10:00:00Z"
-  }
-}
-```
-
----
-
-## Resend Verification Email
-
-POST /api/v1/auth/resend-verification
-
-Authorization: Bearer ${token}
-
-**Response Success (200):**
-
-```json
-{
-  "code": 200,
-  "status": "SUCCESS",
-  "message": "Verification email sent",
-  "data": {
-    "email": "john@example.com",
-    "expires_in": 3600
-  }
-}
+```typescript
+app.use(
+  '*',
+  cors({
+    origin: 'http://localhost:3000', // Frontend URL
+    credentials: true, // Penting untuk cookies
+    allowMethods: ['GET', 'POST', 'PATCH', 'DELETE'],
+  })
+)
 ```

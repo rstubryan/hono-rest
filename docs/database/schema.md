@@ -10,30 +10,36 @@ Database schema untuk Blog API menggunakan PostgreSQL dan Prisma ORM.
 
 ---
 
-## DESIGN PROCESS: STEP BY STEP
+## IMPLEMENTATION ROADMAP
 
-Berikut adalah alur desain database dari MVP Auth hingga final schema.
+Berikut adalah roadmap lengkap database schema dari MVP hingga final implementation.
 
-### Step 1: MVP - Authentication (CURRENT)
+```
+✅ Step 1: MVP Auth (CURRENT)
+⏳ Step 2: RBAC System
+⏳ Step 3: Articles
+⏳ Step 4: Categories & Tags
+⏳ Step 5: Comments
+⏳ Step 6: Interactions
+⏳ Step 7: Analytics
+```
 
-Mulai dengan yang paling dasar: **Users & Authentication**
+---
+
+## ✅ STEP 1: MVP - Authentication (CURRENT)
+
+**Status:** Implemented
+
+**Tanggal:** 2025-01-21
 
 **Pertanyaan desain:**
 
 - Apa yang dibutuhkan untuk auth?
   - Email & password (auth)
   - Profil (name, bio, avatar)
-  - Email verification
   - Refresh token untuk JWT
 
-**Implementasi saat ini:**
-
-```bash
-# Buat migration untuk auth
-bunx prisma migrate dev --name init_auth
-```
-
-**Schema Prisma:**
+### Prisma Schema
 
 ```prisma
 // This is your Prisma schema file,
@@ -41,7 +47,6 @@ bunx prisma migrate dev --name init_auth
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -87,16 +92,61 @@ model RefreshToken {
 }
 ```
 
-**Generated Tables:**
+### Database Tables
 
-- `users` - User data dengan auth fields
-- `refresh_tokens` - Refresh token untuk JWT authentication
+#### users
+
+User data dengan authentication fields.
+
+| Column         | Type      | Nullable | Default         | Description               |
+| -------------- | --------- | -------- | --------------- | ------------------------- |
+| id             | uuid      | NO       | uuid_generate() | Primary key               |
+| name           | varchar   | YES      | NULL            | User display name         |
+| email          | varchar   | NO       | -               | Email (unique)            |
+| password_hash  | varchar   | NO       | -               | Hashed password           |
+| avatar         | varchar   | YES      | NULL            | Avatar URL                |
+| bio            | text      | YES      | NULL            | User bio/description      |
+| email_verified | boolean   | NO       | false           | Email verification status |
+| created_at     | timestamp | NO       | now()           | Account creation date     |
+| updated_at     | timestamp | NO       | now()           | Last update timestamp     |
+
+**Indexes:**
+
+- `email` - For fast login queries
+
+#### refresh_tokens
+
+Refresh tokens untuk JWT authentication.
+
+| Column     | Type      | Nullable | Default         | Description             |
+| ---------- | --------- | -------- | --------------- | ----------------------- |
+| id         | uuid      | NO       | uuid_generate() | Primary key             |
+| token      | varchar   | NO       | -               | Unique refresh token    |
+| user_id    | uuid      | NO       | -               | Foreign key to users    |
+| expires_at | timestamp | NO       | -               | Token expiration date   |
+| revoked    | boolean   | NO       | false           | Token revocation status |
+| created_at | timestamp | NO       | now()           | Token creation date     |
+
+**Indexes:**
+
+- `user_id` - For user's tokens lookup
+- `token` - For token validation queries
+
+**Relationships:**
+
+- `user_id` → `users.id` (CASCADE DELETE)
+
+### Migration
+
+```bash
+bunx prisma migrate dev --name init_auth
+```
 
 ---
 
-### Step 2: Add Role-Based Access Control (RBAC)
+## ⏳ STEP 2: Role-Based Access Control (RBAC)
 
-Setelah auth dasar, tambahkan system role & permission.
+**Status:** NOT IMPLEMENTED
 
 **Pertanyaan desain:**
 
@@ -105,13 +155,13 @@ Setelah auth dasar, tambahkan system role & permission.
 - Butuh permission granular?
   - Ya, untuk kontrol akses yang fleksibel
 
-**Migration:**
+### Migration
 
 ```bash
 bunx prisma migrate dev --name add_rbac
 ```
 
-**Schema tambahan:**
+### Schema Tambahan
 
 ```prisma
 model Role {
@@ -180,7 +230,7 @@ model UserRole {
 }
 ```
 
-**Update User model:**
+### Update User Model
 
 ```prisma
 model User {
@@ -195,9 +245,9 @@ model User {
 
 ---
 
-### Step 3: Design Articles - Core Content
+## ⏳ STEP 3: Articles
 
-Tambahkan entitas utama: **Articles**
+**Status:** NOT IMPLEMENTED
 
 **Pertanyaan desain:**
 
@@ -206,13 +256,13 @@ Tambahkan entitas utama: **Articles**
 - Content type? → Quill Delta, HTML, atau Markdown
 - Status? → Draft atau Published
 
-**Migration:**
+### Migration
 
 ```bash
 bunx prisma migrate dev --name add_articles
 ```
 
-**Schema tambahan:**
+### Schema Tambahan
 
 ```prisma
 enum ContentType {
@@ -264,7 +314,7 @@ model Article {
 }
 ```
 
-**Update User model:**
+### Update User Model
 
 ```prisma
 model User {
@@ -279,20 +329,22 @@ model User {
 
 ---
 
-### Step 4: Add Categories & Tags
+## ⏳ STEP 4: Categories & Tags
+
+**Status:** NOT IMPLEMENTED
 
 **Pertanyaan desain:**
 
 - Categories: Hierarchy atau flat? → Hierarchy (parent-child)
 - Tags: Bisa banyak per article? → Ya, many-to-many
 
-**Migration:**
+### Migration
 
 ```bash
 bunx prisma migrate dev --name add_categories_tags
 ```
 
-**Schema tambahan:**
+### Schema Tambahan
 
 ```prisma
 model Category {
@@ -356,7 +408,7 @@ model ArticleTag {
 }
 ```
 
-**Update Article model:**
+### Update Article Model
 
 ```prisma
 model Article {
@@ -376,20 +428,22 @@ model Article {
 
 ---
 
-### Step 5: Add Comments System
+## ⏳ STEP 5: Comments
+
+**Status:** NOT IMPLEMENTED
 
 **Pertanyaan desain:**
 
 - Comments punya replies? → Ya, self-reference (parent-child)
 - Comments bisa dilike? → Ya, butuh CommentLikes table
 
-**Migration:**
+### Migration
 
 ```bash
 bunx prisma migrate dev --name add_comments
 ```
 
-**Schema tambahan:**
+### Schema Tambahan
 
 ```prisma
 enum CommentStatus {
@@ -443,7 +497,7 @@ model CommentLike {
 }
 ```
 
-**Update User & Article models:**
+### Update User & Article Models
 
 ```prisma
 model User {
@@ -462,7 +516,9 @@ model Article {
 
 ---
 
-### Step 6: Add User Interactions
+## ⏳ STEP 6: Interactions
+
+**Status:** NOT IMPLEMENTED
 
 **Pertanyaan desain:**
 
@@ -470,13 +526,13 @@ model Article {
 - User bisa bookmark article? → Ya
 - Perlu tracking views? → Ya, untuk analytics
 
-**Migration:**
+### Migration
 
 ```bash
 bunx prisma migrate dev --name add_interactions
 ```
 
-**Schema tambahan:**
+### Schema Tambahan
 
 ```prisma
 model ArticleLike {
@@ -525,7 +581,7 @@ model ArticleView {
 }
 ```
 
-**Update User & Article models:**
+### Update User & Article Models
 
 ```prisma
 model User {
@@ -547,66 +603,64 @@ model Article {
 
 ---
 
-## COMPLETE SCHEMA
+## ⏳ STEP 7: Analytics
 
-Setelah semua migration selesai, final schema akan seperti ini:
+**Status:** NOT IMPLEMENTED
 
-### Final Prisma Schema
-
-```prisma
-// Copy hasil akhir dari semua step di atas
-```
+Analytics akan menggunakan aggregation data dari tables yang sudah ada (articles, article_views, etc.)
 
 ---
 
 ## ER Diagram
 
+### Current (MVP)
+
 ```
-Step 1 (MVP Auth):
 Users (1) ----< (N) RefreshTokens
+```
 
-Step 2 (+RBAC):
-Users (N) ----< (N) Roles ----< (N) Permissions
+### Final (Complete)
 
-Step 3 (+Articles):
-Users (1) ----< (N) Articles
+```
+Step 1: Users (1) ----< (N) RefreshTokens
 
-Step 4 (+Categories & Tags):
-Articles (N) ---- (1) Categories
-Articles (N) ----< (N) Tags
+Step 2: Users (N) ----< (N) Roles ----< (N) Permissions
 
-Step 5 (+Comments):
-Articles (N) ----< (N) Comments
-Comments ----< CommentLikes
+Step 3: Users (1) ----< (N) Articles
 
-Step 6 (+Interactions):
-Articles (N) ----< (N) ArticleViews
-Articles (N) ----< (N) ArticleLikes
-Articles (N) ----< (N) ArticleBookmarks
+Step 4: Articles (N) ---- (1) Categories
+         Articles (N) ----< (N) Tags
+
+Step 5: Articles (N) ----< (N) Comments
+         Comments ----< CommentLikes
+
+Step 6: Articles (N) ----< (N) ArticleViews
+         Articles (N) ----< (N) ArticleLikes
+         Articles (N) ----< (N) ArticleBookmarks
 ```
 
 ---
 
 ## Database Migrations
 
-### Migration Files
+### Migration Files Structure
 
 ```bash
 prisma/
 ├── schema.prisma
 └── migrations/
     ├── 20260121105133_init_auth/
-    │   └── migration.sql          # Step 1: Users & RefreshTokens
-    ├── 20260121xxxxx_add_rbac/
-    │   └── migration.sql          # Step 2: RBAC
-    ├── 20260121xxxxx_add_articles/
-    │   └── migration.sql          # Step 3: Articles
-    ├── 20260121xxxxx_add_categories_tags/
-    │   └── migration.sql          # Step 4: Categories & Tags
-    ├── 20260121xxxxx_add_comments/
-    │   └── migration.sql          # Step 5: Comments
-    └── 20260121xxxxx_add_interactions/
-        └── migration.sql          # Step 6: Interactions
+    │   └── migration.sql          # ✅ Step 1: Users & RefreshTokens
+    ├── xxx_add_rbac/
+    │   └── migration.sql          # ⏳ Step 2: RBAC
+    ├── xxx_add_articles/
+    │   └── migration.sql          # ⏳ Step 3: Articles
+    ├── xxx_add_categories_tags/
+    │   └── migration.sql          # ⏳ Step 4: Categories & Tags
+    ├── xxx_add_comments/
+    │   └── migration.sql          # ⏳ Step 5: Comments
+    └── xxx_add_interactions/
+        └── migration.sql          # ⏳ Step 6: Interactions
 ```
 
 ### Creating Migration
@@ -624,49 +678,13 @@ bunx prisma migrate reset --force
 
 ---
 
-## Seed Data
-
-### Default Roles
-
-```sql
-INSERT INTO "roles" (name, "displayName", "description", "level") VALUES
-  ('reader', 'Reader', 'Can read and interact with content', 1),
-  ('author', 'Author', 'Can create and manage own content', 2),
-  ('admin', 'Administrator', 'Full system access', 3);
-```
-
-### Default Permissions
-
-```sql
-INSERT INTO "permissions" (name, "displayName", "description", "resource", "action") VALUES
-  -- Articles
-  ('articles.view', 'View Articles', 'View published articles', 'articles', 'view'),
-  ('articles.create', 'Create Articles', 'Create new articles', 'articles', 'create'),
-  ('articles.update_own', 'Update Own Articles', 'Update own articles', 'articles', 'update_own'),
-  ('articles.delete_own_draft', 'Delete Own Draft Articles', 'Delete own draft articles', 'articles', 'delete_own_draft'),
-  ('articles.publish', 'Publish Articles', 'Publish or unpublish articles', 'articles', 'publish'),
-
-  -- Categories
-  ('categories.view', 'View Categories', 'View categories', 'categories', 'view'),
-
-  -- Tags
-  ('tags.view', 'View Tags', 'View tags', 'tags', 'view'),
-
-  -- Comments
-  ('comments.create', 'Create Comments', 'Create new comments', 'comments', 'create'),
-  ('comments.edit_own', 'Edit Own Comments', 'Edit own comments', 'comments', 'edit_own'),
-  ('comments.delete_own', 'Delete Own Comments', 'Delete own comments', 'comments', 'delete_own'),
-```
-
----
-
 ## Connection String
 
 ### Environment Variables
 
 ```env
 # .env
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/blog_hono"
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/hono_rest"
 ```
 
 ### Prisma Client Generation
@@ -681,6 +699,38 @@ bunx prisma studio
 
 ---
 
+## Design Notes
+
+### Why Only Refresh Tokens in Database?
+
+**Access Token** (NOT stored in DB):
+
+- Self-contained JWT with user claims
+- Stateless - server verifies signature only
+- Short-lived (15-30 minutes)
+- No database lookup needed
+
+**Refresh Token** (stored in DB):
+
+- Long-lived (7-30 days)
+- Can be revoked for security
+- Enables token rotation
+- Stored for revocation tracking
+
+### Password Security
+
+- Passwords hashed with bcrypt (cost factor: 10)
+- Never store plain text passwords
+- Minimum 8 characters with complexity requirements
+
+### Email Verification
+
+- `email_verified` flag for verification status
+- Can be set to true via verification endpoint (future feature)
+- Currently defaults to false for MVP
+
+---
+
 ## Summary
 
 ✅ **Current Step:** Step 1 - MVP Auth (Users & RefreshTokens)
@@ -689,7 +739,7 @@ bunx prisma studio
 ✅ **Migrations:** Step-by-step, modular
 ✅ **Type Safety:** Auto-generated TypeScript types
 
-**Next Steps:**
+**Implementation Progress:**
 
 1. ✅ Step 1: MVP Auth - DONE
 2. ⏳ Step 2: RBAC
@@ -697,5 +747,8 @@ bunx prisma studio
 4. ⏳ Step 4: Categories & Tags
 5. ⏳ Step 5: Comments
 6. ⏳ Step 6: Interactions
+7. ⏳ Step 7: Analytics
+
+**Next Step:** Implement RBAC System
 
 Ready for implementation! 🚀
