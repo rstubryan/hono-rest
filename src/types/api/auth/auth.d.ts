@@ -53,4 +53,7 @@ export type UpdateProfileResponse = BaseApiResponse<UserProfile>
 
 export type LogoutResponse = BaseApiResponse<null>
 
-export type RefreshTokenResponse = BaseApiResponse<null>
+export type RefreshTokenResponse = BaseApiResponse<{
+  access_token: string
+  refresh_token: string
+}>

@@ -70,3 +70,14 @@ export type Metadata = {
 export type WithTimestamps<T> = T & Timestamps
 
 export type WithMetadata<T> = T & Metadata
+
+// ================================
+// JWT
+// ================================
+
+export type JWTPayload = {
+  sub: string
+  email: string
+  iat?: number
+  exp?: number
+}
