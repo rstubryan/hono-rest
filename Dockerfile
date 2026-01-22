@@ -38,4 +38,5 @@ RUN bunx prisma generate
 EXPOSE 8000
 
 # Run the application.
-CMD bun run dev
+# Note: Use "start" script instead of "dev" because --hot flag doesn't work well in containers
+CMD ["bun", "run", "start"]

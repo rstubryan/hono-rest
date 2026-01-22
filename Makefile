@@ -19,7 +19,7 @@ help: ## Show this help message
 	@echo   help               Show this help message
 
 docker-up: ## Start Docker containers
-	docker compose up -d
+	docker compose up -d --build
 
 docker-down: ## Stop Docker containers
 	docker compose down
