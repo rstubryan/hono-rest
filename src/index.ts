@@ -7,7 +7,7 @@ app.get('/', (c) => {
   return c.text('Hello Hono!')
 })
 
-app.route('/', authController)
+app.route('/api/v1', authController)
 
 export default {
   port: process.env.APP_PORT ?? 8000,
