@@ -1,8 +1,8 @@
-import { UserValidation } from '../schema/users.schema'
-import { AuthRegisterRequest, AuthLoginRequest, AuthResponse } from '../types/api/auth/auth'
-import { toBaseUser } from '../models/users.model'
-import { generateAccessToken, generateRefreshToken, getRefreshTokenExpiry } from '../utils/jwt'
-import prisma from '../client/prisma'
+import { UserValidation } from '@/schema/users.schema'
+import { AuthRegisterRequest, AuthLoginRequest, AuthResponse } from '@/types/api/auth/auth'
+import { toBaseUser } from '@/models/users.model'
+import { generateAccessToken, generateRefreshToken, getRefreshTokenExpiry } from '@/utils/jwt'
+import prisma from '@/client/prisma'
 import { HTTPException } from 'hono/http-exception'
 
 export class UserService {

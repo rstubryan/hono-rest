@@ -1,5 +1,5 @@
 import type { User as PrismaUser } from '@prisma/client'
-import { BaseUser } from '../types/api/auth/auth'
+import { BaseUser } from '@/types/api/auth/auth'
 
 export type User = PrismaUser
 

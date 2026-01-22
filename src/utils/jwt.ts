@@ -1,5 +1,5 @@
 import { sign } from 'hono/jwt'
-import type { JWTPayload } from '../types/api/general/general'
+import type { JWTPayload } from '@/types/api/general/general'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-change-me'
 const JWT_EXPIRES_IN = 15 * 60 // 15 minutes in seconds

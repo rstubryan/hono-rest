@@ -1,13 +1,13 @@
 import { Hono } from 'hono'
 import { setCookie } from 'hono/cookie'
-import { UserService } from '../services/users.service'
-import { AuthRegisterRequest, AuthLoginRequest } from '../types/api/auth/auth'
+import { UserService } from '@/services/users.service'
+import { AuthRegisterRequest, AuthLoginRequest } from '@/types/api/auth/auth'
 import {
   COOKIE_NAMES,
   COOKIE_OPTIONS,
   ACCESS_TOKEN_MAX_AGE,
   REFRESH_TOKEN_MAX_AGE,
-} from '../utils/cookie'
+} from '@/utils/cookie'
 
 export const authController = new Hono()
 
