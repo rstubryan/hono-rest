@@ -14,7 +14,7 @@
       "@/utils/*": ["src/utils/*"],
       "@/middleware/*": ["src/middleware/*"],
       "@/schema/*": ["src/schema/*"],
-      "@/client/*": ["src/client/*"],
-    },
-  },
+      "@/client/*": ["src/client/*"]
+    }
+  }
 }
