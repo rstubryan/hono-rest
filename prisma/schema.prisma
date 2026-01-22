@@ -26,6 +26,7 @@ model User {
 
   // Relations
   refreshTokens RefreshToken[]
+  userRoles     UserRole[]
 
   @@map("users")
   @@index([email])
@@ -45,4 +46,69 @@ model RefreshToken {
   @@map("refresh_tokens")
   @@index([userId])
   @@index([token])
+}
+
+model Role {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  displayName String
+  description String?  @db.Text
+  level       Int      @default(1)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  // Relations
+  userRoles       UserRole[]
+  rolePermissions RolePermission[]
+
+  @@map("roles")
+  @@index([name])
+}
+
+model Permission {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  displayName String
+  description String?  @db.Text
+  resource    String
+  action      String
+
+  created_at DateTime @default(now())
+
+  // Relations
+  rolePermissions RolePermission[]
+
+  @@map("permissions")
+  @@index([name])
+}
+
+model RolePermission {
+  role_id       String
+  permission_id String
+  created_at    DateTime @default(now())
+
+  role       Role       @relation(fields: [role_id], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permission_id], references: [id], onDelete: Cascade)
+
+  @@id([role_id, permission_id])
+  @@map("role_permissions")
+  @@index([role_id])
+  @@index([permission_id])
+}
+
+model UserRole {
+  user_id     String
+  role_id     String
+  assigned_by String?
+  reason      String?   @db.Text
+  assigned_at DateTime  @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [role_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, role_id])
+  @@map("user_roles")
+  @@index([user_id])
+  @@index([role_id])
 }
