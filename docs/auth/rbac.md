@@ -363,13 +363,7 @@ Authorization: Bearer ${token}
       "comments.moderate_own",
       "profile.update",
       "analytics.view_own"
-    ],
-    "can": {
-      "create_article": true,
-      "delete_article": false,
-      "moderate_comments": true,
-      "access_admin_panel": false
-    }
+    ]
   }
 }
 ```

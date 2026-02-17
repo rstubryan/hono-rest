@@ -58,18 +58,25 @@ export type PaginationQuery = {
 // ================================
 
 export type Timestamps = {
-  created_at: string
-  updated_at: string
+  created_at?: string
+  updated_at?: string
 }
 
 export type Metadata = {
-  created_by: string
-  updated_by: string
+  created_by?: string
+  updated_by?: string
+}
+
+export type Assignable = {
+  assigned_at?: string
+  assigned_by?: string
 }
 
 export type WithTimestamps<T> = T & Timestamps
 
 export type WithMetadata<T> = T & Metadata
+
+export type WithAssignable<T> = T & Assignable
 
 // ================================
 // JWT
